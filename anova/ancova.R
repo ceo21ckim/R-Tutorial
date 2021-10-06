@@ -20,6 +20,7 @@ tapply(sexab$ptsd, sexab$csa, length)
 # cpa : 공변량
 # csa : 독립변수
 # ptsd : 종속변수
+
 sexab.aov <- aov(ptsd ~ cpa + csa, data = sexab)
 
 summary(sexab.aov)
@@ -35,4 +36,4 @@ effect('csa', sexab.aov)
 # HH package에 있는 ancova를 사용한다
 # ancova ----
 
-ancova(ptsd ~ cpa + csa, data = sexab)N
+ancova(ptsd ~ cpa + csa, data = sexab)

@@ -14,6 +14,13 @@ qf(0.05, df1=1, df=8, lower.tail = FALSE)
 # count : 살아남은 해충의 수 
 str(InsectSprays)
 
+anova(lm(count ~ spray, data = InsectSprays))
+aov(lm(count ~ spray, data = InsectSprays))
+lm(count ~ spray, data = InsectSprays)
+
+# resid
+sum(resid(aov(lm(count ~ spray, data = InsectSprays))))
+
 # 평균은 F가 가장 크다.
 tapply(InsectSprays$count, InsectSprays$spray, mean)
 
