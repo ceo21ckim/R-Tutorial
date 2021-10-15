@@ -1,4 +1,4 @@
-# multiple regression ----
+# polynomial regression ----
 
 library(car)
 
