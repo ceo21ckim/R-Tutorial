@@ -73,5 +73,3 @@ lm(income ~ education, data=Prestige, subset = (education <= mean(education)))
 # 비교를 해보면 5배나 절편값이 크다 .
 # 교육을 더 많이받은 직업은 교육기간이 1년 늘어나면 소득이 급증한다.
 # 단일 변수보다는 굴절을 갖는 곡선이 조금 더 성능이 좋을 수 있다고 생각할 수 있다.
-
-
