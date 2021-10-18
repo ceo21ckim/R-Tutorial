@@ -98,3 +98,6 @@ fact <- function(x){
 
 fact(5)
 fact(6)
+
+
+
