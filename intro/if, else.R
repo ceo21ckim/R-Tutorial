@@ -1,16 +1,16 @@
-read.csv('C:\\Users\\EonKim\\Desktop\\git_upload\\R\\sam.csv', encoding = 'utf-8')
+
 
 
 test <- c(15, 20, 30, NA, 45)
 test[test > 30]
 
-test[test%%3!=0] # °ªÀÌ 3À¸·Î ³ª´©¾î ¶³¾îÁöÁö ¾Ê´Â ¿ä¼Ò ÃßÃâ
+test[test%%3!=0] # ê°’ì´ 3ìœ¼ë¡œ ë‚˜ëˆ„ì–´ ë–¨ì–´ì§€ì§€ ì•ŠëŠ” ìš”ì†Œ ì¶”ì¶œ
 
-test[is.na(test)] # NAÀÎ ¿ä¼Ò ÃßÃâ
+test[is.na(test)] # NAì¸ ìš”ì†Œ ì¶”ì¶œ
 
-test[!is.na(test)] # NA°¡ ¾Æ´Ñ ¿ä¼Ò ÃßÃâ
+test[!is.na(test)] # NAê°€ ì•„ë‹Œ ìš”ì†Œ ì¶”ì¶œ
 
-test[test%%2==0 & !is.na(test)] # 2ÀÇ ¹è¼ö¸é¼­ NA°¡ ¾Æ´Ñ ¿ä¼Ò ÃßÃâ
+test[test%%2==0 & !is.na(test)] # 2ì˜ ë°°ìˆ˜ë©´ì„œ NAê°€ ì•„ë‹Œ ìš”ì†Œ ì¶”ì¶œ
 
 x <- 5
 if(x>0){
@@ -25,14 +25,14 @@ x <- -1
 if(x>0) print('x is a positive value.') else if(x<0)print('x is negative value.') else print('zero')
 
 x <- c(-5:5)
-options(digits = 3) # ¼ıÀÚ Ç¥Çö½Ã À¯È¿ÀÚ¸´¼ö 3ÀÚ¸®·Î ¼³Á¤
+options(digits = 3) # ìˆ«ì í‘œí˜„ì‹œ ìœ íš¨ìë¦¿ìˆ˜ 3ìë¦¬ë¡œ ì„¤ì •
 sqrt(x)
 
 # if else
 sqrt(ifelse(x>= 0, x, NA))
 
 # repeat ----
-# repeat ¹®À» ÀÌ¿ëÇØ 1~10±îÁö ¼ö Áõ°¡½ÃÅ°±â
+# repeat ë¬¸ì„ ì´ìš©í•´ 1~10ê¹Œì§€ ìˆ˜ ì¦ê°€ì‹œí‚¤ê¸°
 i <- 1
 repeat {
   if (i > 10) {
@@ -58,7 +58,7 @@ while(i<10){
 
 i <- 1
 for (i in 2:9){
-  print(paste('----', i, '´ÜÀÔ´Ï´Ù', '----'))
+  print(paste('----', i, 'ë‹¨ì…ë‹ˆë‹¤', '----'))
   for (j in 1:9){
     print(paste(i, 'x', j, '=', i * j))
   }
@@ -71,7 +71,7 @@ for (i in 1:10){
   }
 }
 
-# ¼Ò¼öÃ£±â ----
+# ì†Œìˆ˜ì°¾ê¸° ----
 for( i in 1:10){
   check = 0 
   for (j in 1:i){
