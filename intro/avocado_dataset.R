@@ -22,7 +22,7 @@ gapminder %>%
 library(readxl)
 
 # setting directory ----
-path <- '파일이 저장된 위치로 바로 접근'
+path <- 'C:\\Users\\EonKim\\Desktop\\git_upload\\khu\\study\\bigdata visualization\\dataset'
 setwd(path)
 
 # checking directory ----

@@ -1,6 +1,3 @@
-# getwd()로 현재 directory 위치를 확인하고, setwd()를 통해서 파일이 있는 위치로 가야된다.
-# 파일은 gapminder 데이터를 활용.
-# https://www.gapminder.org/
 
 n <- readLines('wine.name.txt')
 wine <- read.csv('wine.data.txt', header=FALSE, sep=',')
