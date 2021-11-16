@@ -194,4 +194,145 @@ mean(diabete.pred2==diabete.test$diabetes)
 
 
 # multinomial logistic regression ----
+if (!require('EffectStars')) install.packages('EffectStars')
+library(EffectStars)
 
+# EffectStars -> PID
+# 정치 성향(PID)과 함께 유권자의 특성을 나타내는 다섯 개 변수 (TVnews, Income, Education, Age, Population)
+
+data(PID)
+str(PID)
+
+# EffectStars -> VGAM
+# VGAM -> vglm ----
+# mlogit -> mlogit
+# textir -> mnlm
+# nnet -> multinom
+# 다항로지스틱회귀분석을 수행할 경우 위 패키지의 함수들을 사용한다. 
+library(VGAM)
+
+pid.mlogit <- vglm(PID ~., family = multinomial(), data = PID)
+
+summary(pid.mlogit)
+
+exp(coef(pid.mlogit))
+
+# fitted ----
+# 케이스별 확률값을 구할 때 사용하는 함수.
+pid.mlogit.pred <- fitted(pid.mlogit)
+head(pid.mlogit.pred)
+
+# education 에 대한 효과를 보기 위해서 나머지는 평균값을 입력해준다. 
+testdata <- data.frame(Education = c('low', 'high'),
+                       TVnews = mean(PID$TVnews), 
+                       Income = mean(PID$Incom),
+                       Age = mean(PID$Age), 
+                       Population = mean(PID$Population))
+
+testdata
+
+# Democrat : 민주당
+# Independent : 중도
+# Republican : 공화당
+pid.mlogit.pred <- predict(pid.mlogit, newdata=testdata, type = 'response')
+cbind(testdata, pid.mlogit.pred)
+
+testdata <- data.frame(Education = rep('low', 5), 
+                       TVnews = mean(PID$TVnews), 
+                       Income = seq(20, 100, 20), 
+                       Age = mean(PID$Age), 
+                       Population = mean(PID$Population))
+
+testdata
+
+pid.mlogit.pred <- predict(pid.mlogit, newdata = testdata, type = 'response')
+
+cbind(testdata, pid.mlogit.pred)
+
+# MASS -> fgl dataset
+library(MASS)
+
+str(fgl)
+
+# 유리조각에 대한 성분
+fgl.scaled <- cbind(fgl[,1:9], fgl[10])
+fgl
+
+set.seed(123)
+# sample(x, size, replace = FALSE, prob = NULL)
+train <- sample(nrow(fgl), 0.7*nrow(fgl))
+
+
+fgl.train <- fgl.scaled[train, ]
+fgl.test <- fgl.scaled[-train,]
+
+table(fgl.train$type) ; sum(table(fgl.train$type))
+
+table(fgl.test$type) ; sum(table(fgl.test$type))
+
+# nnet -> multinom ----
+# multinom 함수는 첫 번째 범주를 기준범주로 사용함. 기준 범주에 대해서 몇 배 더 확률값이 올라갈까에 대한 문제.
+
+library(nnet)
+
+fgl.mlogit <- multinom(type ~., data = fgl.train)
+summary(fgl.mlogit)
+
+
+
+z <- summary(fgl.mlogit)$coefficients/summary(fgl.mlogit)$standard.errors
+p <- (1-pnorm(abs(z), 0, 1))*2
+
+print(p, digits = 2)
+
+# predict type 인자에 prob을 해주면 확률값으로 출력이 됨.
+fgl.mlogit.pred <- predict(fgl.mlogit, newdata = fgl.test, type = 'probs')
+head(fgl.mlogit.pred)
+
+cbind(round(fgl.mlogit.pred, 3), fgl.test['type'])
+idx1 <- fgl.test$type == 'WinF'
+idx2 <- fgl.test$type == 'WinNF'
+idx3 <- fgl.test$type == 'Veh'
+idx4 <- fgl.test$type == 'Con'
+idx5 <- fgl.test$type == 'Tabl'
+idx6 <- fgl.test$type == 'Head'
+
+ys <- c(fgl.mlogit.pred[idx1, 1], fgl.mlogit.pred[idx2, 2], 
+        fgl.mlogit.pred[idx3, 3], fgl.mlogit.pred[idx4, 4], 
+        fgl.mlogit.pred[idx5, 5], fgl.mlogit.pred[idx6, 6])
+
+xs <- c(fgl.test$type[idx1], fgl.test$type[idx2], fgl.test$type[idx3],
+        fgl.test$type[idx4], fgl.test$type[idx5], fgl.test$type[idx6])
+
+boxplot(ys ~ xs, names = levels(fgl.test$type), ylim = c(0, 1), col = rainbow(6), 
+        xlab = 'Glass Type', ylab = 'Estimated Probabilities', 
+        main = 'Probabilities of Group Menbership against True Group')
+
+
+fgl.mlogit.pred <- colnames(fgl.mlogit.pred)[max.col(fgl.mlogit.pred)]
+
+table(fgl.test$type, 
+      factor(fgl.mlogit.pred, levels = levels(fgl.test$type),
+             labels = levels(fgl.test$type)), dnn = c('Actual', 'Predicted'))
+
+data(fgl)
+
+fgl.scaled <- cbind(fgl[,1:9], fgl[10])
+fgl.mlogit.cv <- numeric()
+for (i in 1:100){
+  train <- sample(nrow(fgl), 0.7*nrow(fgl))
+  fgl.train <- fgl.scaled[train,]
+  fgl.test <- fgl.scaled[-train,]
+  fgl.mlogit <- multinom(type ~. , data = fgl.train)
+  fgl.mlogit.pred <- predict(fgl.mlogit, newdata = fgl.test, type = 'probs')
+  fgl.mlogit.pred <- colnames(fgl.mlogit.pred)[max.col(fgl.mlogit.pred)]
+  fgl.mlogit.cv[i] <- mean(fgl.test$type == fgl.mlogit.pred)
+}
+
+
+fgl.mlogit.cv
+
+summary(fgl.mlogit.cv)
+
+boxplot(fgl.mlogit.cv, horizontal = TRUE, col = 'tomato', xlab = 'Acuuracy', 
+        main = 'Accuracy for Forensic Glass (100 samples')
