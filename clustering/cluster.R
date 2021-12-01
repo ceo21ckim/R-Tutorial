@@ -76,6 +76,84 @@ plot(clustering.average, hang = -1, cex = 0.9, col = 'darkgreen',
      main = 'Hierarchical Clustering with Average Linkage \n Five Clusters')
 rect.hclust(clustering.average, k = 5)
 
+a <- aggregate(nutrition.scaled, by = list(cluster=clusters), mean)
+n <- as.vector(table(clusters))
+cbind(a, n)
+
+# partitioning cluster analysis ----
+# k-mean cluster analysis ----
+head(state.x77)
+state.scaled <- scale(state.x77)
+
+set.seed(123)
+nc <- NbClust(state.scaled, distance = 'euclidean', 
+              min.nc = 2, max.nc = 15, method = 'kmeans')
+
+table(nc$Best.nc[1,])
+
+barplot(table(nc$Best.nc[1, ]), col = 'lightsteelblue', 
+        xlab = 'Number of Cluster', ylab = 'Number of Supporting Index', 
+        main = 'Number of Clusters Proposed by Indices')
+
+set.seed(123)
+# kmeans 는 cluster, centers, size를 반환한다.
+clustering.km <- kmeans(state.scaled, centers = 3, nstart = 25)
+
+clustering.km$cluster
+
+clustering.km$centers
+
+clustering.km$size
+
+aggregate(state.x77, by = list(cluster = clustering.km$cluster), mean)
+
+# cluster -> clusplot ----
+# shade : 빗금
+# lines = 0 : 군집간 거리를 나타내는 선을 삭제.
+# labels = 2 : 개별 케이스 행 이름을 레이블로 나타냄.
+library(cluster)
+clusplot(x = state.x77, clus = clustering.km$cluster, color = TRUE, shade = TRUE, 
+         labels = 2, lines = 0, main = 'Cluster Plot')
+
+# PAM ----
+# k-means ++
+# partitioning around medoids cluster analysis 
+
+if (!require('rattle')) install.packages('rattle')
+library(rattle)
+
+head(wine)
+
+# cluster -> pam ----
+set.seed(123)
+clustering.pam <- pam(wine[-1], k = 3, stand = TRUE)
+
+clustering.pam$clusinfo
+
+clustering.pam$medoids
+
+clustering.pam$id.med
+
+clustering.pam$clustering
+
+# labels = 4 : 군집 번호만 나타남.
+clusplot(clustering.pam, color=TRUE, shade=TRUE, labels=4, lines=0, main = 'Cluster Plot')
+
+result.pam <- table(wine$Type, clustering.pam$clustering, 
+                    dnn=c('Actual', 'Clustered'))
+
+result.pam
+
+# 분류 정확도 89.3%
+mean(wine$Type==clustering.pam$clustering)
+
+# flexclust -> randIndex ----
+# 일치 정도를 계량화 가능.
+# 일치 정도가 0.7 정도면 나쁘지 않은 결과임을 나타냄.
+# -1:완전 불일치, 1:완전일치
+library(flexclust)
+randIndex(result.pam)
+
 # 헤도닉가격모형에서 회귀분석에 들어가는 변수를 설정할 때 계층? 형태로 변수를 집어넣어 분석을 수행하여
 # 가격의 변동을 파악하는 것으로 알고 있습니다. 
 # 예를 들면 y = x1 + x2 + x3 형태로 구성되어있다면 x1 : 인구통계학적 변수(성별, 나이 등)
