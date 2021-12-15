@@ -127,5 +127,5 @@ legend('topleft', inset = 0.02, legend = c('Quebec', 'Mississippi'), fill = c('d
 
 # 주효과와 상호작용효과를 두 종류의 도표를 이용하여 좀 더 명확하게 보여준다.
 interaction2wt(uptake ~ conc*Type, data = CO2sub)
-.
+
 
