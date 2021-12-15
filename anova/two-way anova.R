@@ -1,10 +1,10 @@
 # two-way analysis  of variance ----
 
-# 10¸¶¸®ÀÇ ±â´ÏÇÇ±×¸¦ ´ë»óÀ¸·Î ºñÅ¸¹ÎC°¡ ÀÌ»¡ÀÇ ¼ºÀå¿¡ ¹ÌÄ¡´Â ½ÇÇè
+# 10ë§ˆë¦¬ì˜ ê¸°ë‹ˆí”¼ê·¸ë¥¼ ëŒ€ìƒìœ¼ë¡œ ë¹„íƒ€ë¯¼Cê°€ ì´ë¹¨ì˜ ì„±ìž¥ì— ë¯¸ì¹˜ëŠ” ì‹¤í—˜
 
-# len : ÀÌ»¡ÀÇ ±æÀÌÀÌ¸ç Á¾¼Óº¯¼ö·Î¼­ÀÇ ¿ªÇÒ
-# supp :  ºñÅ¸¹ÎC º¸ÃæÁ¦
-# dose : 0.5, 1.0, 2.0 ¹Ð¸®±×·¥ÀÇ º¸ÃæÁ¦ Åõ¿©·®
+# len : ì´ë¹¨ì˜ ê¸¸ì´ì´ë©° ì¢…ì†ë³€ìˆ˜ë¡œì„œì˜ ì—­í• 
+# supp :  ë¹„íƒ€ë¯¼C ë³´ì¶©ì œ
+# dose : 0.5, 1.0, 2.0 ë°€ë¦¬ê·¸ëž¨ì˜ ë³´ì¶©ì œ íˆ¬ì—¬ëŸ‰
 
 str(ToothGrowth)
 
@@ -23,10 +23,10 @@ with(ToothGrowth, tapply(len,list(supp, dose), mean))
 with(ToothGrowth, tapply(len,list(supp, dose), sd))
 
 
-# two-way ANOVA¸¦ ÇÒ ¶§¿¡´Â °¢ µ¶¸³º¯¼ö¿¡ *¸¦ ÇØÁØ´Ù.
+# two-way ANOVAë¥¼ í•  ë•Œì—ëŠ” ê° ë…ë¦½ë³€ìˆ˜ì— *ë¥¼ í•´ì¤€ë‹¤.
 ToothGrowth.aov <- aov(len ~ supp * dose, data = ToothGrowth)
 
-# len ~ supp*dose == len ~ supp + dose + supp:dose ( »óÈ£ÀÛ¿ë )
+# len ~ supp*dose == len ~ supp + dose + supp:dose ( ìƒí˜¸ìž‘ìš© )
 
 summary(ToothGrowth.aov)
 
@@ -40,12 +40,12 @@ boxplot(len ~ supp * dose, data= ToothGrowth,
         main = 'Effects of Vitamin C on Tooth Growth of Guinea Pigs')
 
 
-# x.factor : xÃà¿¡ À§Ä¡ÇÒ Áý´Ü º¯¼ö 
-# trace.facotr : ±×·¡ÇÁ »ó¿¡ ¼±À¸·Î ±×·ÁÁú Áý´Ü º¯¼ö
-# response : ¼ýÀÚ º¤ÅÍÀÎ ¹ÝÀÀº¯¼ö(yÃà)
-# type(b) : ¼±°ú Á¡ µÑ´Ù Ç¥ÇöÇÏ±â À§ÇØ¼­ 'b'
-# pch : Á¡ÀÇ ¸ð¾ç
-# trace.label : legend ÀÌ¸§.
+# x.factor : xì¶•ì— ìœ„ì¹˜í•  ì§‘ë‹¨ ë³€ìˆ˜ 
+# trace.facotr : ê·¸ëž˜í”„ ìƒì— ì„ ìœ¼ë¡œ ê·¸ë ¤ì§ˆ ì§‘ë‹¨ ë³€ìˆ˜
+# response : ìˆ«ìž ë²¡í„°ì¸ ë°˜ì‘ë³€ìˆ˜(yì¶•)
+# type(b) : ì„ ê³¼ ì  ë‘˜ë‹¤ í‘œí˜„í•˜ê¸° ìœ„í•´ì„œ 'b'
+# pch : ì ì˜ ëª¨ì–‘
+# trace.label : legend ì´ë¦„.
 interaction.plot(x.factor = ToothGrowth$dose, trace.factor = ToothGrowth$supp,
                  response = ToothGrowth$len, las = 1, type = 'b',
                  pch = c(1, 19), col = c('blue', 'red'), trace.label = 'Supplement',
@@ -63,8 +63,8 @@ interaction.plot(x.factor = ToothGrowth$supp, trace.factor = ToothGrowth$dose,
 
 library(gplots)
 
-# connect ÀÎ¼ö¿¡´Â ¼±À¸·Î ¿¬°áÇÒ Áý´ÜÆò±ÕÀÇ ÀÎµ¦½º¸¦ ÁöÁ¤ÇÒ ¼ö ÀÖ´Ù. 
-# fefault´Â ¸ðµç Áý´Ü Æò±ÕÀÌ ¼±À¸·Î ¿¬°áµÈ´Ù.
+# connect ì¸ìˆ˜ì—ëŠ” ì„ ìœ¼ë¡œ ì—°ê²°í•  ì§‘ë‹¨í‰ê· ì˜ ì¸ë±ìŠ¤ë¥¼ ì§€ì •í•  ìˆ˜ ìžˆë‹¤. 
+# fefaultëŠ” ëª¨ë“  ì§‘ë‹¨ í‰ê· ì´ ì„ ìœ¼ë¡œ ì—°ê²°ëœë‹¤.
 plotmeans(len ~ interaction(supp, dose, sep = ''), data = ToothGrowth,
           connect = list(c(1, 3, 5), c(2, 4, 6)),
           col = c('red', 'green3'),
@@ -76,9 +76,9 @@ plotmeans(len ~ interaction(supp, dose, sep = ''), data = ToothGrowth,
           xlab = 'Supplement and Dost Combination', ylab = 'Tooth Length',
           main = 'Means Plot for Tooth Growth of Guinea Pigs \n with 95% CI of Mean')
 
-# Á¡µéÀ» Åë°úÇÏ´Â Á÷¼±À» Ãß°¡ÇÏ±â À§ÇØ¼­´Â  pannel = panel.smmoth¸¦ ÇÑ´Ù.
-# lwd : ¼±ÀÇ µÎ²²
-# col.smooth : ¼±ÀÇ »ö»ó
+# ì ë“¤ì„ í†µê³¼í•˜ëŠ” ì§ì„ ì„ ì¶”ê°€í•˜ê¸° ìœ„í•´ì„œëŠ”  pannel = panel.smmothë¥¼ í•œë‹¤.
+# lwd : ì„ ì˜ ë‘ê»˜
+# col.smooth : ì„ ì˜ ìƒ‰ìƒ
 coplot(len ~ dose | supp, data = ToothGrowth, 
        col = 'steelblue', pch = 19,
        panel = panel.smooth, lwd=2, col.smooth = 'darkorange',
@@ -94,7 +94,7 @@ interaction2wt(len ~ supp * dose, data = ToothGrowth)
 
 TukeyHSD(ToothGrowth.aov)
 
-#  which : ºñ±³ÇÏ°íÀÚÇÏ´Â Áý´Ü¸¸À» ÁöÁ¤ÇÑ´Ù.
+#  which : ë¹„êµí•˜ê³ ìží•˜ëŠ” ì§‘ë‹¨ë§Œì„ ì§€ì •í•œë‹¤.
 TukeyHSD(ToothGrowth.aov, which = c('dose'), conf.level = 0.99)
 
 
@@ -109,12 +109,12 @@ TukeyHSD(ToothGrowth.aov, which = c('supp'), conf.level = 0.99)
 
 head(CO2, 3); tail(CO2, 3)
 
-# Type :  Áý´Ü °£ ¿äÀÎ
-# conc : (ÀÌ»êÈ­Åº¼Ò ³óµµ) : Áý´Ü ³» ¿äÀÎ
+# Type :  ì§‘ë‹¨ ê°„ ìš”ì¸
+# conc : (ì´ì‚°í™”íƒ„ì†Œ ë†ë„) : ì§‘ë‹¨ ë‚´ ìš”ì¸
 CO2sub <- subset(CO2, Treatment = 'chilled')
 CO2sub$conc <- factor(CO2sub$conc)
 
-# Error : »óÈ£ÀÛ¿ëÀ» ¾Ë±â À§ÇÔ.
+# Error : ìƒí˜¸ìž‘ìš©ì„ ì•Œê¸° ìœ„í•¨.
 CO2sub.aov <- aov(uptake ~ Type * conc + Error(Plant/conc), data = CO2sub)
 summary(CO2sub.aov)
 
@@ -125,7 +125,7 @@ boxplot(uptake ~ Type * conc, data = CO2sub,
         main = 'Effects of Plant Type and CO2 on Carbon Dioxide Uptake')
 legend('topleft', inset = 0.02, legend = c('Quebec', 'Mississippi'), fill = c('deepskyblue','violet'))
 
-# ÁÖÈ¿°ú¿Í »óÈ£ÀÛ¿ëÈ¿°ú¸¦ µÎ Á¾·ùÀÇ µµÇ¥¸¦ ÀÌ¿ëÇÏ¿© Á» ´õ ¸íÈ®ÇÏ°Ô º¸¿©ÁØ´Ù.
+# ì£¼íš¨ê³¼ì™€ ìƒí˜¸ìž‘ìš©íš¨ê³¼ë¥¼ ë‘ ì¢…ë¥˜ì˜ ë„í‘œë¥¼ ì´ìš©í•˜ì—¬ ì¢€ ë” ëª…í™•í•˜ê²Œ ë³´ì—¬ì¤€ë‹¤.
 interaction2wt(uptake ~ conc*Type, data = CO2sub)
-
+.
 
