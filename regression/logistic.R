@@ -128,7 +128,7 @@ pchisq(summary(fit.overdis)$dispersion * fit.origin$df.residual,
 
 # p240 ----
 # penalty logistic regression ----
-# !if (require('mlbench')) install.packages('mlbench')
+if (!require('mlbench')) install.packages('mlbench')
 
 library(mlbench)
 
