@@ -13,7 +13,7 @@ n=nrow(x);p=ncol(x)-1
 sum(d[1:4]^2)/sum(d^2)
 sum(d[1:3]^2)/sum(d^2)
 sum(d[1:2]^2)/sum(d^2)
-sum(d[1]^2)/sum(d^2) #ÃæºĞ. ÀÚµ¿À¸·Î 95%¸¦ ³Ñ´Â k¸¦ Ã£¾Æ¼­ Regression À» ¸¸µé¾î¶ó.
+sum(d[1]^2)/sum(d^2) #ì¶©ë¶„. ìë™ìœ¼ë¡œ 95%ë¥¼ ë„˜ëŠ” kë¥¼ ì°¾ì•„ì„œ Regression ì„ ë§Œë“¤ì–´ë¼.
 
 
 s<-function(x){
@@ -71,7 +71,7 @@ for (i in 1:4){
 }
 beta4
 
-sum(abs(y-x%*%beta4)) #4¹øÂ° ±îÁö ´õÇßÀ» ¶§°¡ °¡Àå ÀÛÀº°Ô ³ª¿Â´Ù!! µû¶ó¼­ 4¹øÂ° ±îÁö
+sum(abs(y-x%*%beta4)) #4ë²ˆì§¸ ê¹Œì§€ ë”í–ˆì„ ë•Œê°€ ê°€ì¥ ì‘ì€ê²Œ ë‚˜ì˜¨ë‹¤!! ë”°ë¼ì„œ 4ë²ˆì§¸ ê¹Œì§€
 
 beta5<-0
 for (i in 1:5){
@@ -83,7 +83,7 @@ beta5
 
 sum(abs(y-x%*%beta5))
 
-#d^2 Áï lambdaÀÇ ºñÀ²À» ÅëÇØ¼­ Beta.hat , y.hatÀ» ¸¸µå´Â Algorithm
+#d^2 ì¦‰ lambdaì˜ ë¹„ìœ¨ì„ í†µí•´ì„œ Beta.hat , y.hatì„ ë§Œë“œëŠ” Algorithm
 
 beta.hat<-function(x,alpha){
   n=nrow(x);p=ncol(x)-1
@@ -154,7 +154,7 @@ circle <- function(x0, y0, r, n=1000, ...) {
   y <- y0 + r*sin(theta)  
   lines(x,y,...)  
   } 
-plot(0,type="n",xlab=expression(beta[1]),ylab=expression(beta[2]), xlim=c(-10,10), ylim=c(-10,10)) #mtext ·Î ¼¼¿öºÁ!
+plot(0,type="n",xlab=expression(beta[1]),ylab=expression(beta[2]), xlim=c(-10,10), ylim=c(-10,10)) #mtext ë¡œ ì„¸ì›Œë´!
 abline(a=10,b=-2) 
 points(0,0) 
 circle(0,0,sqrt(20),col="grey") 
@@ -172,21 +172,21 @@ x3 <- (x1+x2)/2  #multico
 x4 <- x1+runif(100,min=-100,max=100)  #multico, runif = random uniform
 y <- 0.7*x1 + 0.3*x2 + rnorm(100, mean=0, sd=sqrt(15)) 
 df <- data.frame(x1=x1, x2=x2, x3=x3, x4=x4, y=y)
-pairs(df) #x3,x1 / x3,x2 µîÀÌ ¼­·Î Á÷¼±°ü°è°¡ ³ªÅ¸³­´Ù.
+pairs(df) #x3,x1 / x3,x2 ë“±ì´ ì„œë¡œ ì§ì„ ê´€ê³„ê°€ ë‚˜íƒ€ë‚œë‹¤.
 cor(df)
 var.x <- var(df[,c("x1","x2","x3","x4")]) 
 #21p
 library(ridge) 
-demo.ridge <- linearRidge(y ~ x1 + x2 + x3 + x4, data=df, lambda="automatic") #lamda´Â ¾Ë¾Æ¼­ Ã£¾ÆÁØ´Ù.
+demo.ridge <- linearRidge(y ~ x1 + x2 + x3 + x4, data=df, lambda="automatic") #lamdaëŠ” ì•Œì•„ì„œ ì°¾ì•„ì¤€ë‹¤.
 summary(demo.ridge)
 coefficients(demo.ridge)
 
 demo.ridge$lambda
 
-library(MASS) #Ch07Selection 25p ¿¡ ÀÖ¾î.
-lm.ridge(y~x1+x2+x3+x4,df,lambda=seq(0,0.1,0.01)) #lambda°ª¿¡ µû¶ó Beta.hatÀÌ ´Ù¸£´Ù. 
-#lambda °¡ 0 ~ 0.1 ±îÁö 0.01¾¿ ´Ã¸®¸é¼­ º¸°íÀÖ´Ù.
-#lambda Ã£´Â°Ç ´ÙÀ½½Ã°£¿¡
+library(MASS) #Ch07Selection 25p ì— ìˆì–´.
+lm.ridge(y~x1+x2+x3+x4,df,lambda=seq(0,0.1,0.01)) #lambdaê°’ì— ë”°ë¼ Beta.hatì´ ë‹¤ë¥´ë‹¤. 
+#lambda ê°€ 0 ~ 0.1 ê¹Œì§€ 0.01ì”© ëŠ˜ë¦¬ë©´ì„œ ë³´ê³ ìˆë‹¤.
+#lambda ì°¾ëŠ”ê±´ ë‹¤ìŒì‹œê°„ì—
 
 #Homework 8-5
 y= c(56.25,    75,      115.625, 68.75,   96.875, 168.750,  84.375,  171.875, 109.375, 103.125)
@@ -200,7 +200,7 @@ x<-cbind(1,x1,x2,x3,x4,x5)
 df <- data.frame(x1=x1, x2=x2, x3=x3, x4=x4,x5=x5, y=y)
 ridge=linearRidge(y ~ x1 + x2 + x3 + x4+ x5, data=df, lambda="automatic")
 linearRidge(y ~ x1 + x2 + x3 + x4+ x5, data=df, lambda="automatic")$lambda
-l1=linearRidge(y ~ x1 + x2 + x3 + x4+ x5, data=df, lambda="automatic")$lambda[1] #lambda 1¹øÀ¸·Î ¼±ÅÃÇØº¼°Û
+l1=linearRidge(y ~ x1 + x2 + x3 + x4+ x5, data=df, lambda="automatic")$lambda[1] #lambda 1ë²ˆìœ¼ë¡œ ì„ íƒí•´ë³¼ê²¡
 l2=linearRidge(y ~ x1 + x2 + x3 + x4+ x5, data=df, lambda="automatic")$lambda[2]
 l3=linearRidge(y ~ x1 + x2 + x3 + x4+ x5, data=df, lambda="automatic")$lambda[3]
 
@@ -220,12 +220,12 @@ x%*%B
 
 l1;l2;l3
 
-#³»°¡ ÇØº» (3.47)
+#ë‚´ê°€ í•´ë³¸ (3.47)
 
 u=svd(x)$u;v=svd(x)$v;d=svd(x)$d
 u[,1]%*%t(u[,1])%*%y
 
-x%*%solve(t(x)%*%x + l1*diag(6))%*%t(x)%*%y #(3.47) Ã¹ÁÙ
+x%*%solve(t(x)%*%x + l1*diag(6))%*%t(x)%*%y #(3.47) ì²«ì¤„
 
 xb<-0
 for(i in 1:6){
@@ -254,13 +254,3 @@ b3=solve(t(x)%*%x+l3*diag(6))%*%t(x)%*%y
 coef(ridge)
 
 cbind(x%*%b1,x%*%b2,x%*%b3,x%*%B)
-
-#standize ÇØº¸ÀÚ.
-
-?scale
-x0<-cbind(x1-mean(x1),x2-mean(x2),x3-mean(x3),x4-mean(x4),x5-mean(x5))
-
-solve(t(x0)%*%x0+l1*diag(5))%*%t(x0)%*%y
-#¾ÈµÇ ¤¶.¤³/...
-
-cbind(x%*%B,xb,xb2,xb3)
